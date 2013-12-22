@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<parameter name="curp_r" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+     v_alumnocalificaciones.`curp` AS v_alumnocalificaciones_curp,
+     v_alumnocalificaciones.`nombre` AS v_alumnocalificaciones_nombre,
+     v_alumnocalificaciones.`paterno` AS v_alumnocalificaciones_paterno,
+     v_alumnocalificaciones.`descripcion` AS v_alumnocalificaciones_descripcion,
+     v_alumnocalificaciones.`cal_parcial` AS v_alumnocalificaciones_cal_parcial,
+     v_alumnocalificaciones.`cal_global` AS v_alumnocalificaciones_cal_global,
+     v_alumnocalificaciones.`cal_final` AS v_alumnocalificaciones_cal_final
+FROM
+     `v_alumnocalificaciones` v_alumnocalificaciones
+WHERE
+     curp = $P{curp_r}]]>
+	</queryString>
+	<field name="v_alumnocalificaciones_curp" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="v_alumnocalificaciones_nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="v_alumnocalificaciones_paterno" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="v_alumnocalificaciones_descripcion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="v_alumnocalificaciones_cal_parcial" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="v_alumnocalificaciones_cal_global" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="v_alumnocalificaciones_cal_final" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<group name="Alumno G">
+		<groupExpression><![CDATA[$F{v_alumnocalificaciones_curp}]]></groupExpression>
+		<groupHeader>
+			<band height="71">
+				<rectangle>
+					<reportElement x="1" y="3" width="543" height="47"/>
+				</rectangle>
+				<staticText>
+					<reportElement x="1" y="56" width="100" height="15"/>
+					<textElement/>
+					<text><![CDATA[MATERIA]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="305" y="56" width="79" height="15"/>
+					<textElement/>
+					<text><![CDATA[GLOBAL]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="384" y="56" width="83" height="15"/>
+					<textElement/>
+					<text><![CDATA[FINAL]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="2" y="5" width="35" height="15"/>
+					<textElement/>
+					<text><![CDATA[CURP:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="2" y="20" width="57" height="15"/>
+					<textElement/>
+					<text><![CDATA[NOMBRE:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="2" y="35" width="57" height="15"/>
+					<textElement/>
+					<text><![CDATA[APELLIDO:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="37" y="5" width="153" height="15"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{v_alumnocalificaciones_curp}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="59" y="20" width="153" height="15"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{v_alumnocalificaciones_nombre}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="59" y="35" width="153" height="15"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{v_alumnocalificaciones_paterno}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="213" y="56" width="79" height="15"/>
+					<textElement/>
+					<text><![CDATA[PARCIAL]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="50"/>
+		</groupFooter>
+	</group>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="102">
+			<staticText>
+				<reportElement x="444" y="81" width="100" height="20"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[ARGT-050204-NDF]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="299" y="61" width="245" height="20"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Avenida Juan Rodiguez #12324 Tercer Piso]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="299" y="41" width="245" height="20"/>
+				<textElement textAlignment="Right">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Artes Graficas de Tijuana A.C]]></text>
+			</staticText>
+			<image>
+				<reportElement x="2" y="0" width="148" height="101"/>
+				<imageExpression class="java.lang.String"><![CDATA["I:\\Taller FPM\\LOGO.jpg"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35">
+			<line>
+				<reportElement x="0" y="0" width="555" height="1"/>
+			</line>
+			<staticText>
+				<reportElement x="165" y="1" width="217" height="28"/>
+				<textElement>
+					<font size="14" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[REPORTE DE CALIFICACIONES]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="21">
+			<rectangle>
+				<reportElement x="1" y="0" width="543" height="20"/>
+			</rectangle>
+			<line>
+				<reportElement x="382" y="0" width="1" height="20"/>
+			</line>
+			<line>
+				<reportElement x="303" y="0" width="1" height="20"/>
+			</line>
+			<line>
+				<reportElement x="212" y="0" width="1" height="20"/>
+			</line>
+			<line>
+				<reportElement x="465" y="0" width="1" height="20"/>
+			</line>
+			<textField>
+				<reportElement x="2" y="0" width="210" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{v_alumnocalificaciones_descripcion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="214" y="0" width="89" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{v_alumnocalificaciones_cal_parcial}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="303" y="0" width="79" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{v_alumnocalificaciones_cal_global}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="384" y="0" width="81" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{v_alumnocalificaciones_cal_final}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="42"/>
+	</summary>
+</jasperReport>

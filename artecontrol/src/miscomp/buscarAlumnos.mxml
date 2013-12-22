@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" show="currentState=''">
+	<mx:states>
+		<mx:State name="resultados">
+			<mx:SetProperty target="{label1}" name="text" value="Materias del alumno"/>
+			<mx:RemoveChild target="{txtDato}"/>
+			<mx:RemoveChild target="{btnBuscar}"/>
+			<mx:RemoveChild target="{dtgResultadosAlumno}"/>
+			<mx:AddChild position="lastChild">
+				<mx:Label x="10" y="39" text="Matrícula:" textAlign="right"/>
+			</mx:AddChild>
+			<mx:AddChild position="lastChild">
+				<mx:TextInput x="67" y="37" maxChars="9" width="117" id="txtMatricula" enabled="true" editable="false" text="{matricula_c}"/>
+			</mx:AddChild>
+			<mx:AddChild position="lastChild">
+				<mx:Label x="210" y="37" text="Curp:" textAlign="right"/>
+			</mx:AddChild>
+			<mx:AddChild position="lastChild">
+				<mx:TextInput x="252" y="35" width="183" id="txtCurp" editable="false" text="{curp_c}"/>
+			</mx:AddChild>
+			<mx:AddChild position="lastChild">
+				<mx:Label x="15" y="67" text="Nombre:" textAlign="right"/>
+			</mx:AddChild>
+			<mx:AddChild position="lastChild">
+				<mx:TextInput x="67" y="65" width="117" id="txtNombre" editable="false" text="{nombre_c}"/>
+			</mx:AddChild>
+			<mx:AddChild position="lastChild">
+				<mx:Label x="194" y="67" text="Paterno:" textAlign="right"/>
+			</mx:AddChild>
+			<mx:AddChild position="lastChild">
+				<mx:TextInput x="252" y="65" width="120" id="txtPaterno" editable="false" text="{paterno_c}"/>
+			</mx:AddChild>
+			<mx:AddChild position="lastChild">
+				<mx:Label x="380" y="67" text="Materno:" textAlign="right"/>
+			</mx:AddChild>
+			<mx:AddChild position="lastChild">
+				<mx:TextInput x="437" y="65" width="120" id="txtMaterno" editable="false" text="{materno_c}"/>
+			</mx:AddChild>
+			<mx:AddChild relativeTo="{label1}" position="before">
+				<mx:HRule y="114" left="10" right="10" id="hrule1"/>
+			</mx:AddChild>
+			<mx:AddChild relativeTo="{label1}" position="before">
+				<mx:Label x="10" y="13" text="Resultados de la busqueda" fontWeight="bold" id="label0"/>
+			</mx:AddChild>
+			<mx:SetProperty target="{label1}" name="y" value="98"/>
+			<mx:AddChild relativeTo="{hrule1}" position="before">
+				<mx:HRule y="29" left="10" right="10"/>
+			</mx:AddChild>
+			<mx:AddChild relativeTo="{hrule1}" position="before">
+				<mx:HRule y="29" left="10" right="10"/>
+			</mx:AddChild>
+			<mx:AddChild position="lastChild">
+				<mx:DataGrid right="10" top="124" left="10" bottom="40" id="dtgResultadosAlumno">
+					<mx:columns>
+						
+						<mx:DataGridColumn headerText="Materia" dataField="descripcion"/>
+						<mx:DataGridColumn headerText="Profesor" dataField="profesor"/>
+						<mx:DataGridColumn headerText="Curso" dataField="nombre_curso"/>
+						<mx:DataGridColumn headerText="Cal. Parcial" dataField="cal_parcial"/>
+						<mx:DataGridColumn headerText="Cal. Global" dataField="cal_global"/>
+						<mx:DataGridColumn headerText="Cal. Final" dataField="cal_final"/>
+						
+						
+					</mx:columns>
+				</mx:DataGrid>
+			</mx:AddChild>
+			<mx:AddChild position="lastChild">
+				<mx:Image height="50" right="20" top="39" width="40" id="imgFoto" source="assets/pic/{foto_c}"/>
+			</mx:AddChild>
+			<mx:AddChild position="lastChild">
+				<mx:Button label="Volver a consultar" right="10" bottom="10" click="currentState=''">
+					<mx:icon>@Embed(source='../assets/iconos/arrow_refresh.png')</mx:icon>
+				</mx:Button>
+			</mx:AddChild>
+			<mx:RemoveChild target="{dtgResultados}"/>
+			<mx:RemoveChild target="{button1}"/>
+			<mx:AddChild position="lastChild">
+				<mx:Button label="Imprimir calificaciones" bottom="10" right="165" id="button0" icon="@Embed(source='../assets/iconos/imprimir.png')" click="imprimirReporteAlumno()"/>
+			</mx:AddChild>
+		</mx:State>
+	</mx:states>
+	<mx:HRule y="29" left="10" right="10"/>
+	<mx:Label x="10" y="13" text="Datos de busqueda" fontWeight="bold" id="label1"/>
+	<mx:TextInput y="39" left="10" right="101" id="txtDato"/>
+	<mx:Button y="39" label="Buscar" right="10" 
+		id="btnBuscar" icon="@Embed(source='../assets/iconos/magnifier.png')" 
+		click="filtroPersonalizado.send({d:txtDato.text})"/>
+	<mx:DataGrid right="10" 
+		doubleClickEnabled="true" 
+		doubleClick="seleccionarAlumno(event)" 
+		left="10" bottom="44" top="69" id="dtgResultados">
+		<mx:columns>
+			<mx:DataGridColumn headerText="Matrícula" dataField="matricula"/>
+			<mx:DataGridColumn headerText="Curp" dataField="curp"/>
+			<mx:DataGridColumn headerText="Nombre" dataField="nombre"/>
+			<mx:DataGridColumn headerText="Paterno" dataField="paterno"/>
+			<mx:DataGridColumn headerText="Materno" dataField="materno"/>
+		</mx:columns>
+	</mx:DataGrid>
+	<mx:HTTPService id="filtroPersonalizado"
+		result="filtroPersonalizadoHandler(event)"
+		fault="fallaCompBuscarAlumnos(event)" 
+		url="data/buscarAlumnoFiltro.php"  
+		showBusyCursor="true"
+		method="POST"/>
+	<mx:HTTPService id="segundoFiltro"
+		result="segundoFiltroHandler(event)"
+		fault="fallaCompBuscarAlumnos(event)"
+		url="data/FiltroAlumnoDetalle.php"
+		showBusyCursor="true"
+		method="POST"
+		/>
+		<mx:Script>
+			<![CDATA[
+				import mx.charts.CategoryAxis;
+				import flash.net.navigateToURL;
+				import mx.controls.Alert;
+				import mx.rpc.events.FaultEvent;
+				import mx.rpc.events.ResultEvent;
+				[Bindable] private var matricula_c:String;
+				[Bindable] private var curp_c:String;
+				[Bindable] private var nombre_c:String;
+				[Bindable] private var paterno_c:String;
+				[Bindable] private var materno_c:String;
+				[Bindable] private var foto_c:String;
+				private function filtroPersonalizadoHandler(evento:ResultEvent):void{
+					dtgResultados.dataProvider = evento.result.alumnos.alumno;
+					
+				}
+				private function fallaCompBuscarAlumnos(evento:FaultEvent):void{
+					Alert.show(evento.fault.faultString,"Error");
+				}
+				private function seleccionarAlumno(evento:MouseEvent):void{
+					segundoFiltro.send({d:evento.target.data.matricula});
+					matricula_c = evento.target.data.matricula;
+					nombre_c = evento.target.data.nombre;
+					paterno_c = evento.target.data.paterno;
+					materno_c = evento.target.data.materno;
+					curp_c = evento.target.data.curp;
+					foto_c = evento.target.data.foto;
+				}
+				private function segundoFiltroHandler(evento:ResultEvent):void{
+					if(evento.result==0){
+						Alert.show("No hay materias cargadas para este alumno","error");
+					}else{
+						currentState="resultados";
+						dtgResultadosAlumno.dataProvider = evento.result.alumnos.alumno;	
+					}
+					
+					
+				}
+				private function imprimirReporte():void{
+					var lanzarReporte:URLRequest = new URLRequest("http://localhost:8084/artesReportes/CalificacionConcentrado");
+					try{
+						navigateToURL(lanzarReporte);
+					}catch(error:Error){
+						Alert.show("Imposible lanzar el reporte","Error");
+					}
+				}
+				private function imprimirReporteAlumno():void{
+					
+					var lanzarReporte:URLRequest = new URLRequest("http://localhost:8084/artesReportes/CalificacionXalumno?curp="+curp_c);
+					try{
+						navigateToURL(lanzarReporte);
+					}catch(error:Error){
+						Alert.show("Imposible lanzar el reporte","Error");
+					}
+				}
+			]]>
+		</mx:Script>
+		<mx:Button label="Imprimir reporte de calificaciones" bottom="14" right="10" id="button1" icon="@Embed(source='../assets/iconos/imprimir.png')" click="imprimirReporte()"/>
+</mx:Canvas>

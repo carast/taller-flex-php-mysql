@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" 
+	backgroundGradientAlphas="[1.0, 1.0]" 
+	backgroundGradientColors="[#20A4DB, #14607F]" 
+	pageTitle="ARTES GRAFICAS DE TIJUANA A.C. " xmlns:ns1="miscomp.*">
+	<mx:states>
+		<mx:State name="menuAdmin">
+			<mx:RemoveChild target="{panel1}"/>
+			<mx:AddChild position="lastChild">
+				<mx:ApplicationControlBar dock="true" id="menuDock">
+
+					<mx:Image source="assets/iconos/miniLogoIcon.png"/>
+				    <mx:LinkBar dataProvider="{paneles}"/>
+				    <mx:Label text="Usuario: {nombreReal}" color="0xFFFFFF"/>
+				    <mx:Label text="Artes Gráficas de Tijuana A.C." color="#5F0485"/>
+
+				</mx:ApplicationControlBar>
+			</mx:AddChild>
+			<mx:AddChild position="lastChild">
+				<mx:ViewStack x="0" y="8" id="paneles" width="100%" height="100%">
+					<mx:Panel label="Alumnos" width="100%" height="100%" title="Manejo de Alumnos" 
+						titleIcon="@Embed(source='assets/iconos/user_edit.png')" layout="absolute">
+						<mx:TabNavigator left="5" top="5" right="5" bottom="5">
+							<ns1:nuevoAlumno idUsuarioC="{idUsuario}" estadosACC="{estadosAC}" label="Registrar Alumno" width="100%" height="100%">
+							</ns1:nuevoAlumno>
+							<ns1:inscripcionAlumno idUsuarioC="{idUsuario}" label="Inscripciones" width="100%" height="100%">
+							</ns1:inscripcionAlumno>
+							<ns1:buscarAlumnos label="Status" width="100%" height="100%">
+							</ns1:buscarAlumnos>
+							<ns1:gAlumnos label="Graficas" width="100%" height="100%">
+							</ns1:gAlumnos>
+						</mx:TabNavigator>
+					</mx:Panel>
+					<mx:Panel label="Empleados" width="100%" height="100%" title="Empleados" 
+						titleIcon="@Embed(source='assets/iconos/user_suit.png')">
+					</mx:Panel>
+					<mx:Panel label="Sistema" width="100%" height="100%" title="Sistema" 
+						titleIcon="@Embed(source='assets/iconos/asignarNL.png')" layout="absolute">
+						<mx:TabNavigator left="10" right="10" top="10" bottom="10">
+							<ns1:addEstados label="Estados" width="100%" height="100%">
+							</ns1:addEstados>
+							<ns1:addMunicipios label="Municipios" width="100%" height="100%">
+							</ns1:addMunicipios>
+							<ns1:addTiposEmpleados label="Tipo Empleados" width="100%" height="100%">
+							</ns1:addTiposEmpleados>
+							<ns1:addCursos idUsuarioC="{idUsuario}" label="Cursos" width="100%" height="100%">
+							</ns1:addCursos>
+						</mx:TabNavigator>
+					</mx:Panel>
+				</mx:ViewStack>
+			</mx:AddChild>
+			<mx:SetStyle target="{image1}" name="left"/>
+			<mx:SetStyle target="{image1}" name="right" value="0"/>
+			<mx:SetProperty target="{image1}" name="source" value="assets/iconos/miniLogo.png"/>
+			
+		</mx:State>
+	</mx:states>
+	<mx:Panel width="270" height="164" layout="absolute" horizontalCenter="0" verticalCenter="0" title="Identíficate por favor" status="Artes Gráficas" titleIcon="@Embed(source='assets/iconos/world.png')" id="panel1">
+		<mx:Form x="0" y="0" width="100%" height="100%">
+			<mx:FormItem label="Usuario:" required="true">
+				<mx:TextInput width="120" id="txtUser"/>
+			</mx:FormItem>
+			<mx:FormItem label="Contraseña:" required="true">
+				<mx:TextInput width="120" id="txtPwd" displayAsPassword="true"/>
+			</mx:FormItem>
+		</mx:Form>
+		<mx:ControlBar horizontalAlign="right">
+			<mx:Button label="Iniciar" icon="@Embed(source='assets/iconos/accept.png')" id="cmdIdentificar" click="enviarDatos()"/>
+		</mx:ControlBar>
+	</mx:Panel>
+<mx:Script>
+	<![CDATA[
+		import mx.collections.ArrayCollection;
+		import mx.controls.Alert;
+		import mx.validators.Validator;
+		import mx.rpc.events.ResultEvent;
+		import mx.rpc.events.FaultEvent;
+		private function enviarDatos():void{
+			var invalidArray:Array = Validator.validateAll([validaString, validaStringPwd]);
+			if (invalidArray.length == 0){
+				validaUsuario.send()
+			}else{
+				Alert.show("Existen errores en el llenado, verifica tus datos","Alerta de Sistema",1);	
+			}
+		}
+		[Bindable] public var nombreReal:String;
+		[Bindable] public var idUsuario:int;
+		public var nivelUsuario:int;
+		private function compruebaHandler(evento:ResultEvent):void{
+				var xmlRegreso:XML= new XML(validaUsuario.lastResult);
+				if(xmlRegreso.hasComplexContent()){
+					Alert.show("Bienvenido al sistema " + 
+					xmlRegreso..resultado.nombre,"Bienvenido");
+					this.currentState="menuAdmin";
+					nombreReal=xmlRegreso..resultado.nombre;
+					idUsuario=xmlRegreso..resultado.id_usuario;
+					nivelUsuario = xmlRegreso..resultado.nivel;
+					estadosService.send();
+	
+				}else{
+					Alert.show(xmlRegreso.toString(),"Error");
+				}	
+		}
+		private function fallaHandler(evento:FaultEvent):void{
+        	Alert.show(evento.fault.message as String);
+        }
+        [Bindable] public var estadosAC:ArrayCollection = new ArrayCollection();
+         public function estadoServiceHandler(evento:ResultEvent):void{
+        	estadosAC = evento.result.estados.estado;
+        }
+       	 
+
+	]]>
+</mx:Script>
+
+<mx:HTTPService id="validaUsuario" result="compruebaHandler(event)" 
+	showBusyCursor="true"
+	fault="fallaHandler(event)"
+	method="POST" url="data/comprobar.php" resultFormat="e4x">
+	<mx:request>
+		<usuario>
+			{txtUser.text}
+		</usuario>
+		<pwd>
+			{txtPwd.text}
+		</pwd>
+	</mx:request>
+</mx:HTTPService>	
+<mx:HTTPService id="estadosService" showBusyCursor="false"
+	result="estadoServiceHandler(event)" fault="fallaHandler(event)" url="data/estados.php"/>
+<mx:StringValidator 
+	id="validaString" 
+	source="{txtUser}"
+	trigger="{cmdIdentificar}" 
+	triggerEvent="click" 
+	property="text"
+	requiredFieldError="El nombre de usuario es necesario, por favor ¡llénalo!"/>
+	<mx:StringValidator 
+	id="validaStringPwd"
+	source="{txtPwd}" 
+	trigger="{cmdIdentificar}" 
+	triggerEvent="click" 
+	property="text"
+	requiredFieldError="El pasaporte es necesario, por favor ¡llénalo!"/>
+	<mx:Image source="assets/iconos/LOGO.png" left="0" top="0" id="image1"/>
+</mx:Application>

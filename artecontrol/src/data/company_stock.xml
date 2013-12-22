@@ -1,0 +1,324 @@
+<data>
+	<date date="25-Jul-05">
+		<open>40.47</open>
+		<high>40.75</high>
+		<low>40.24</low>
+		<close>40.31</close>
+	</date>
+
+	<date date="26-Jul-05">
+		<open>39.98</open>
+		<high>40.78</high>
+		<low>39.97</low>
+		<close>40.34</close>
+	</date>
+
+	<date date="27-Jul-05">
+		<open>40.38</open>
+		<high>40.66</high>
+		<low>40</low>
+		<close>40.63</close>
+	</date>
+
+	<date date="28-Jul-05">
+		<open>40.49</open>
+		<high>40.99</high>
+		<low>40.3</low>
+		<close>40.98</close>
+	</date>
+
+	<date date="29-Jul-05">
+		<open>40.98</open>
+		<high>41.18</high>
+		<low>40.01</low>
+		<close>40.14</close>
+	</date>
+
+	<date date="1-Aug-05">
+		<open>40.13</open>
+		<high>40.4</high>
+		<low>39.65</low>
+		<close>39.95</close>
+	</date>
+
+	<date date="2-Aug-05">
+		<open>38.68</open>
+		<high>39.34</high>
+		<low>37.75</low>
+		<close>38.84</close>
+	</date>
+
+	<date date="3-Aug-05">
+		<open>38.76</open>
+		<high>38.76</high>
+		<low>38.03</low>
+		<close>38.12</close>
+	</date>
+
+	<date date="4-Aug-05">
+		<open>37.98</open>
+		<high>37.98</high>
+		<low>36.56</low>
+		<close>36.69</close>
+	</date>
+
+	<date date="5-Aug-05">
+		<open>36.61</open>
+		<high>37</high>
+		<low>36.48</low>
+		<close>36.86</close>
+	</date>
+
+	<date date="8-Aug-05">
+		<open>36.88</open>
+		<high>36.98</high>
+		<low>36.13</low>
+		<close>36.35</close>
+	</date>
+
+	<date date="9-Aug-05">
+		<open>36.49</open>
+		<high>36.6</high>
+		<low>35.88</low>
+		<close>36.17</close>
+	</date>
+
+	<date date="10-Aug-05">
+		<open>36.26</open>
+		<high>36.26</high>
+		<low>35.14</low>
+		<close>35.21</close>
+	</date>
+
+	<date date="11-Aug-05">
+		<open>35.31</open>
+		<high>36.59</high>
+		<low>35.3</low>
+		<close>36.45</close>
+	</date>
+
+	<date date="12-Aug-05">
+		<open>36.2</open>
+		<high>36.58</high>
+		<low>36</low>
+		<close>36.55</close>
+	</date>
+
+	<date date="15-Aug-05">
+		<open>36.46</open>
+		<high>36.92</high>
+		<low>36.37</low>
+		<close>36.63</close>
+	</date>
+
+	<date date="16-Aug-05">
+		<open>36.56</open>
+		<high>36.75</high>
+		<low>35.47</low>
+		<close>35.67</close>
+	</date>
+
+	<date date="17-Aug-05">
+		<open>35.63</open>
+		<high>36.79</high>
+		<low>35.63</low>
+		<close>36.68</close>
+	</date>
+
+	<date date="18-Aug-05">
+		<open>36.65</open>
+		<high>37</high>
+		<low>36.32</low>
+		<close>36.36</close>
+	</date>
+
+	<date date="19-Aug-05">
+		<open>36.3</open>
+		<high>36.61</high>
+		<low>35.77</low>
+		<close>35.77</close>
+	</date>
+
+	<date date="22-Aug-05">
+		<open>35.59</open>
+		<high>36.05</high>
+		<low>35.55</low>
+		<close>35.7</close>
+	</date>
+
+	<date date="23-Aug-05">
+		<open>35.76</open>
+		<high>37</high>
+		<low>35.7</low>
+		<close>36.87</close>
+	</date>
+
+	<date date="24-Aug-05">
+		<open>36.89</open>
+		<high>38.58</high>
+		<low>36.68</low>
+		<close>38.37</close>
+	</date>
+
+	<date date="25-Aug-05">
+		<open>38.55</open>
+		<high>38.55</high>
+		<low>37.13</low>
+		<close>37.44</close>
+	</date>
+
+	<date date="26-Aug-05">
+		<open>37.43</open>
+		<high>37.57</high>
+		<low>37.09</low>
+		<close>37.43</close>
+	</date>
+
+	<date date="29-Aug-05">
+		<open>37.25</open>
+		<high>37.33</high>
+		<low>36.99</low>
+		<close>37.21</close>
+	</date>
+
+	<date date="30-Aug-05">
+		<open>37.16</open>
+		<high>37.16</high>
+		<low>36.4</low>
+		<close>36.83</close>
+	</date>
+
+	<date date="31-Aug-05">
+		<open>36.85</open>
+		<high>37.03</high>
+		<low>36.7</low>
+		<close>36.95</close>
+	</date>
+
+	<date date="1-Sep-05">
+		<open>36.96</open>
+		<high>37.12</high>
+		<low>36.52</low>
+		<close>36.65</close>
+	</date>
+
+	<date date="2-Sep-05">
+		<open>36.56</open>
+		<high>36.73</high>
+		<low>36.23</low>
+		<close>36.28</close>
+	</date>
+
+	<date date="6-Sep-05">
+		<open>36.3</open>
+		<high>37.45</high>
+		<low>36.3</low>
+		<close>37.42</close>
+	</date>
+
+	<date date="7-Sep-05">
+		<open>37.38</open>
+		<high>37.4</high>
+		<low>36.86</low>
+		<close>37.18</close>
+	</date>
+
+	<date date="8-Sep-05">
+		<open>37.47</open>
+		<high>37.95</high>
+		<low>37.45</low>
+		<close>37.68</close>
+	</date>
+
+	<date date="9-Sep-05">
+		<open>37.73</open>
+		<high>37.74</high>
+		<low>37.14</low>
+		<close>37.29</close>
+	</date>
+
+	<date date="12-Sep-05">
+		<open>37.35</open>
+		<high>37.77</high>
+		<low>37.01</low>
+		<close>37.14</close>
+	</date>
+
+	<date date="13-Sep-05">
+		<open>36.82</open>
+		<high>37.02</high>
+		<low>36.36</low>
+		<close>36.6</close>
+	</date>
+
+	<date date="14-Sep-05">
+		<open>36.51</open>
+		<high>37.6</high>
+		<low>36.44</low>
+		<close>37.28</close>
+	</date>
+
+	<date date="15-Sep-05">
+		<open>37.13</open>
+		<high>37.39</high>
+		<low>36.47</low>
+		<close>36.79</close>
+	</date>
+
+	<date date="16-Sep-05">
+		<open>38.06</open>
+		<high>40.45</high>
+		<low>37.86</low>
+		<close>40.14</close>
+	</date>
+
+	<date date="19-Sep-05">
+		<open>39.79</open>
+		<high>40.06</high>
+		<low>38.88</low>
+		<close>39.15</close>
+	</date>
+
+	<date date="20-Sep-05">
+		<open>39.15</open>
+		<high>39.39</high>
+		<low>37.79</low>
+		<close>37.79</close>
+	</date>
+
+	<date date="21-Sep-05">
+		<open>37.79</open>
+		<high>38.28</high>
+		<low>37.2</low>
+		<close>38.01</close>
+	</date>
+
+	<date date="22-Sep-05">
+		<open>37.78</open>
+		<high>38.39</high>
+		<low>37.08</low>
+		<close>37.97</close>
+	</date>
+
+	<date date="23-Sep-05">
+		<open>37.95</open>
+		<high>38.5</high>
+		<low>37.5</low>
+		<close>38.42</close>
+	</date>
+
+	<date date="26-Sep-05">
+		<open>38.48</open>
+		<high>39.09</high>
+		<low>38.29</low>
+		<close>38.55</close>
+	</date>
+
+	<date date="27-Sep-05">
+		<open>38.39</open>
+		<high>38.93</high>
+		<low>38.12</low>
+		<close>38.85</close>
+	</date>
+
+</data>

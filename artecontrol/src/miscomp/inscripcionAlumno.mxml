@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" show="listadoCurso.send()">
+	<mx:HRule y="29" left="10" right="10"/>
+	<mx:Label x="10" y="13" text="Datos principales" fontWeight="bold"/>
+	<mx:Label x="10" y="39" text="Matrícula:" textAlign="right"/>
+	<mx:TextInput x="67" y="37" maxChars="9" width="85" id="txtMatricula"/>
+	<mx:Label x="196" y="123" text="Cantidad:" textAlign="right"/>
+	<mx:TextInput x="256" y="121" maxChars="9" width="85" id="txtCantidad" restrict="0-9."/>
+	<mx:Label x="192" y="37" text="Curp:" textAlign="right"/>
+	<mx:TextInput x="228" y="35" width="144" id="txtCurp" enabled="false"/>
+	<mx:Label x="15" y="67" text="Nombre:" textAlign="right"/>
+	<mx:TextInput x="67" y="65" width="120" id="txtNombre" enabled="false"/>
+	<mx:Label x="195" y="67" text="Paterno:" textAlign="right"/>
+	<mx:TextInput x="252" y="65" width="120" id="txtPaterno" enabled="false"/>
+	<mx:Label x="380" y="67" text="Materno:" textAlign="right"/>
+	<mx:TextInput x="437" y="65" width="120" id="txtMaterno" enabled="false"/>
+	<mx:HRule y="111" left="10" right="10"/>
+	<mx:Label x="10" y="95" text="Inscripción" fontWeight="bold"/>
+	<mx:Label x="29" y="151" text="Curso:" textAlign="right"/>
+	<mx:ComboBox x="74" y="149" width="235" id="cmbCurso" labelField="nombre_curso"></mx:ComboBox>
+	<mx:Label x="10" y="123" text="Semestre:" textAlign="right"/>
+	<mx:ComboBox x="74" y="121" width="114" id="cmbSemestre" dataProvider="{semestre}"></mx:ComboBox>
+	
+	
+	<mx:StringValidator id="validaCantidad" source="{txtCantidad}" trigger="{cmdGuardar}" 
+		triggerEvent="click" property="text" requiredFieldError="Introduce la cantidad de inscripción"/>
+	<mx:StringValidator id="validaMatricula" source="{txtMatricula}" trigger="{cmdGuardar}" 
+		triggerEvent="click" property="text" requiredFieldError="Por favor ingresa la matrícula"/>
+	
+
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.validators.Validator;
+			import mx.controls.Alert;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.collections.ArrayCollection;
+			
+			[Bindable] private var semestre:ArrayCollection = new ArrayCollection(
+			[{label:"Primero", data:"1"},
+			{label:"Segundo",data:"2"},
+			{label:"Tercero",data:"3"},
+			{label:"Cuarto",data:"4"},
+			{label:"Quinto",data:"5"},
+			{label:"Sexto",data:"6"},]);
+			
+			public var idUsuarioC:int;
+						
+			private function fallaCompInscripcion(evento:FaultEvent):void{
+				Alert.show(evento.fault.faultString,"Error")
+			}
+			private function listadoCursoHandler(evento:ResultEvent):void{
+				cmbCurso.dataProvider = evento.result.cursos.curso;
+			}
+			
+			private function materiasHandler(evento:ResultEvent):void{
+				grdCargaMaterias.dataProvider = evento.result.materias.materia;
+			}
+			private function guardarInscripcionHandler(evento:ResultEvent):void{
+				if(evento.result == ""){
+					Alert.show("Se inscribio al alumno","Éxito");
+					limpiarCajas();
+				}else{
+					Alert.show("No se logro inscribir","Error");
+				}
+			}
+			private function buscarAlumnoHandler(evento:ResultEvent):void{
+				try{
+				if(evento.result=="no "){
+					Alert.show("No se encuentra la matricula "+txtMatricula.text+" " + 
+							"en el sistema","Alumno no encontrado");
+				}else{
+					txtNombre.text = evento.result.alumnos.alumno.nombre;
+					txtPaterno.text = evento.result.alumnos.alumno.paterno;
+					txtMaterno.text = evento.result.alumnos.alumno.materno;
+					txtCurp.text = evento.result.alumnos.alumno.curp;
+				}
+				}catch(error:Error){}
+			}
+			private function guardarInscripcionBtn():void{
+				var arreglo:Array = Validator.validateAll([
+						validaMatricula,
+						validaCantidad
+					]);
+				if (arreglo.length>0){
+					Alert.show("Existen errores en el llenado de los datos","Verifica datos");
+				}else{
+					guardarInscripcion.send({
+						semestre:cmbSemestre.selectedItem.data,
+						curso:cmbCurso.selectedItem.id_curso,
+						matricula:txtMatricula.text,
+						id_usuario:idUsuarioC,
+						cantidad:txtCantidad.text
+					})
+				}
+				
+				
+			}
+			
+			private function limpiarCajas():void{
+				txtMatricula.text= "";
+				txtCurp.text= "";
+				txtNombre.text= "";
+				txtPaterno.text= "";
+				txtMaterno.text= "";
+				txtCantidad.text= "";
+				txtMatricula.setFocus();
+			}
+		]]>
+	</mx:Script>	
+		
+
+	<mx:HTTPService id="listadoCurso"
+		result="listadoCursoHandler(event)"
+		fault="fallaCompInscripcion(event)"
+		url="data/cursos.php"/>
+		
+	<mx:HTTPService id="materias"
+		result="materiasHandler(event)"
+		fault="fallaCompInscripcion(event)"
+		url="data/materiasXsemestre.php"
+		method="POST"/>
+	<mx:HTTPService id="buscarAlumno"
+		result="buscarAlumnoHandler(event)"
+		fault="fallaCompInscripcion(event)"
+		url="data/buscarAlumno.php"
+		method="POST"/>
+	<mx:HTTPService id="guardarInscripcion"
+		result="guardarInscripcionHandler(event)"
+		fault="fallaCompInscripcion(event)"
+		url="data/saveInscripcion.php"
+		method="POST"/>
+	<mx:Button label="Guardar" 
+		icon="@Embed(source='../assets/iconos/accept.png')" 
+		id="cmdGuardar" x="379" y="149"
+		 click="guardarInscripcionBtn()"/>
+	<mx:Button icon="@Embed(source='../assets/iconos/buscar.png')" 
+		id="cmdBuscarMatricula" 
+		enabled="{txtMatricula.text!=''}" x="160" y="36" width="24" 
+		click="buscarAlumno.send({m:txtMatricula.text})"/>
+	<mx:Button label="Nuevo" icon="@Embed(source='../assets/iconos/table.png')" id="cmdNuevo" click="limpiarCajas()" x="477" y="149"/>
+	<mx:DataGrid x="10" y="200" width="547" height="200" id="grdCargaMaterias">
+		<mx:columns>
+			<mx:DataGridColumn width="100" headerText="Clave" dataField="id_materia"/>
+			<mx:DataGridColumn width="447" headerText="Materia" dataField="descripcion"/>
+		</mx:columns>
+	</mx:DataGrid>
+	<mx:HRule y="193" left="10" right="10"/>
+	<mx:Label x="10" y="177" text="Carga de materias" fontWeight="bold"/>
+	<mx:Button icon="@Embed(source='../assets/iconos/refreshGrid.png')" 
+		id="cmdCargarMaterias" x="317" y="149" width="24"
+		click="materias.send({s:cmbSemestre.selectedItem.data,c:cmbCurso.selectedItem.id_curso})"/>
+	
+</mx:Canvas>

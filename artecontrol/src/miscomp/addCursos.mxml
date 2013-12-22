@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="listaCursos.send()">
+	<mx:HRule y="29" left="10" right="10"/>
+	<mx:Label x="10" y="13" text="Agregar nuevos cursos o carreras" fontWeight="bold"/>
+	<mx:Label x="10" y="41" text="Nombre:" textAlign="right"/>
+	<mx:TextInput y="39" id="txtNombre" left="62" right="108"/>
+	<mx:DataGrid right="10" id="dgrCursos" left="10" top="67" bottom="10">
+		<mx:columns>
+			<mx:DataGridColumn width="120" headerText="Clave del Curso" dataField="id_curso"/>
+			<mx:DataGridColumn headerText="Nombre del Curso" dataField="nombre_curso"/>
+			
+		</mx:columns>
+	</mx:DataGrid>
+	<mx:Button y="39" id="btnGuardar" label="Guardar" icon="@Embed(source='../assets/iconos/accept.png')" right="10" click="guaradarElCurso()"/>
+	<mx:StringValidator 
+		id="validaNombreCurso" 
+		source="{txtNombre}" 
+		trigger="{btnGuardar}" 
+		triggerEvent="click" 
+		property="text" requiredFieldError="El nombre del curso es necesario para guardar"/>
+	<mx:HTTPService id="guardarCurso" 
+		result="guardarCursoHandler(event)" 
+		fault="fallaCompCursos(event)" 
+		method="POST" url="data/saveCurso.php"
+		showBusyCursor="true"/>
+	<mx:HTTPService id="listaCursos"
+		result="listaCursosHandler(event)"
+		fault="fallaCompCursos(event)"
+		url="data/cursos.php"/>
+		<mx:Script>
+			<![CDATA[
+				import mx.validators.Validator;
+				import mx.controls.Alert;
+				import mx.rpc.events.FaultEvent;
+				import mx.rpc.events.ResultEvent;
+				public var idUsuarioC:int;
+				private function guardarCursoHandler(evento:ResultEvent):void{
+					if(evento.result==1){
+						Alert.show("Se guardo correctamente","Éxito");
+						listaCursos.send();
+						txtNombre.text="";
+					}
+					else{
+						Alert.show("Error en el guardado","Éxito");
+					}
+				}
+				private function fallaCompCursos(evento:FaultEvent):void{
+					Alert.show(evento.fault.faultString,"Error");
+				}
+				private function guaradarElCurso():void{
+					
+					var verifica:Array = Validator.validateAll([validaNombreCurso]);
+					if (verifica.length>0){
+						Alert.show("Existen errores de llenado de datos, verifica","Error");
+					}else{
+						guardarCurso.send({nombre:txtNombre.text,id_usuario:idUsuarioC});	
+						
+					}
+					
+				}
+				private function listaCursosHandler(evento:ResultEvent):void{
+					dgrCursos.dataProvider = evento.result.cursos.curso;
+				}
+			]]>
+		</mx:Script>
+</mx:Canvas>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml">
+	<mx:HRule y="29" left="10" right="10"/>
+	<mx:Label x="10" y="13" text="Registro de Municipios" fontWeight="bold"/>
+	<mx:Label x="8" y="71" text="Municipio:" textAlign="right"/>
+	<mx:Label x="21" y="41" text="Estado:" textAlign="right"/>
+	<mx:ComboBox x="68" y="39" width="200"></mx:ComboBox>
+	<mx:TextInput x="68" y="69" width="209" id="txtNombre"/>
+	<mx:DataGrid right="10" left="10" top="97" bottom="10">
+		<mx:columns>
+			<mx:DataGridColumn headerText="Column 1" dataField="col1"/>
+			<mx:DataGridColumn headerText="Column 2" dataField="col2"/>
+			<mx:DataGridColumn headerText="Column 3" dataField="col3"/>
+		</mx:columns>
+	</mx:DataGrid>
+	<mx:Button x="285" y="69" label="Guardar" icon="@Embed(source='../assets/iconos/accept.png')"/>
+	
+</mx:Canvas>

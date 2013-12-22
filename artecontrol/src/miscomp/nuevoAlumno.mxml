@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="iniciaEventos()">
+	<mx:HRule y="29" left="10" right="10"/>
+	<mx:Label x="10" y="13" text="Datos principales" fontWeight="bold"/>
+	<mx:Label x="10" y="39" text="Matrícula:" textAlign="right"/>
+	<mx:TextInput x="67" y="37" maxChars="9" width="75" id="txtMatricula"/>
+	<mx:Label x="150" y="39" text="Curp:" textAlign="right"/>
+	<mx:TextInput x="186" y="37" maxChars="18" width="144" id="txtCurp"/>
+	<mx:Label x="15" y="67" text="Nombre:" textAlign="right"/>
+	<mx:TextInput x="67" y="65" width="120" id="txtNombre"/>
+	<mx:Label x="195" y="67" text="Paterno:" textAlign="right"/>
+	<mx:TextInput x="252" y="65" width="120" id="txtPaterno"/>
+	<mx:Label x="380" y="67" text="Materno:" textAlign="right"/>
+	<mx:TextInput x="437" y="65" width="120" id="txtMaterno"/>
+	<mx:Label x="29" y="95" text="Sexo:" textAlign="right"/>
+	<mx:Label x="178" y="95" text="Fecha Nacimiento:" textAlign="right"/>
+	<mx:ComboBox x="67" y="93" width="103" id="cmbSexo" dataProvider="{sexo}"></mx:ComboBox>
+	<mx:DateField x="284" y="93" id="txtFechaNac" 
+		formatString="YYYY-MM-DD" dayNames="['D','L','M','M','J','V','S']" 
+		maxYear="2010" yearNavigationEnabled="true" 
+		monthNames="['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']"/>
+	<mx:HRule y="144" left="10" right="10"/>
+	<mx:Label x="10" y="128" text="Docimilio &amp; Contacto" fontWeight="bold"/>
+	<mx:Label x="15" y="156" text="Responsable o Tutor:" textAlign="right"/>
+	<mx:TextInput x="138" y="154" width="419" id="txtResponsable"/>
+	<mx:Label x="15" y="213" text="Domicilio:" textAlign="right"/>
+	<mx:TextInput x="74" y="211" width="288" id="txtDomicilio"/>
+	<mx:Label x="370" y="215" text="N. Exterior:" textAlign="right"/>
+	<mx:TextInput x="436" y="213" width="24" id="txtExterior"/>
+	<mx:Label x="468" y="215" text="N. Interior:" textAlign="right"/>
+	<mx:TextInput x="533" y="213" width="24" id="txtInterior"/>
+	<mx:Label x="15" y="184" text="Telefóno:" textAlign="right"/>
+	<mx:TextInput x="74" y="182" width="120" id="txtTelefono"/>
+	<mx:Label x="197" y="184" text="Celular:" textAlign="right"/>
+	<mx:TextInput x="246" y="182" width="120" id="txtCelular"/>
+	<mx:Label x="375" y="184" text="Email:" textAlign="right"/>
+	<mx:TextInput x="416" y="182" width="141" id="txtEmail"/>
+	<mx:Label x="49" y="241" text="CP:" textAlign="right"/>
+	<mx:TextInput x="74" y="239" width="59" maxChars="5" id="txtCP" restrict="0-9"/>
+	<mx:Label x="27" y="269" text="Estado:" textAlign="right"/>
+	<mx:ComboBox x="74" y="267" width="182" id="cmbEstado" change="cambioDeMunicipio(event)" 
+		dataProvider="{estadosACC}" labelField="estado_n"></mx:ComboBox>
+	<mx:Label x="12" y="299" text="Municipio:" textAlign="right"/>
+	<mx:ComboBox x="74" y="297" width="182" id="cmbMunicipio" labelField="municipio_n"></mx:ComboBox>
+	<mx:Label x="17" y="327" text="Acta de Nacimiento:" textAlign="right"/>
+	<mx:ComboBox x="135" y="325" width="59" id="cmbNacimiento" dataProvider="{sino}"></mx:ComboBox>
+	<mx:Label x="197" y="327" text="Comprobante de Domicilio:" textAlign="right"/>
+	<mx:ComboBox x="356" y="325" width="59" id="cmbComprobante" dataProvider="{sino}"></mx:ComboBox>
+	<mx:Label x="425" y="327" text="Constancia:" textAlign="right"/>
+	<mx:ComboBox x="498" y="325" width="59" id="cmbConstancia" dataProvider="{sino}"></mx:ComboBox>
+	<mx:Label x="6" y="355" text="Fotografía:" textAlign="right"/>
+	<mx:TextInput x="76" y="353" width="180" id="txtFoto"/>
+	<mx:Button x="259" y="353" label="Buscar &amp; Seleccionar" icon="@Embed(source='../assets/iconos/magnifier.png')" click="buscarArchivo()" id="cmdBuscar"/>
+	<mx:ControlBar y="381" left="10" horizontalAlign="right" width="547">
+		<mx:Button label="Guardar" icon="@Embed(source='../assets/iconos/accept.png')" id="cmdGuardar" click="subirArchivoAlServer()"/>
+		<mx:Button label="Nuevo" icon="@Embed(source='../assets/iconos/table.png')" id="cmdNuevo" click="limpiarCajas()"/>
+	</mx:ControlBar>
+	<mx:StringValidator id="validaNombre" source="{txtNombre}" trigger="{cmdGuardar}" 
+		triggerEvent="click" property="text" requiredFieldError="El nombre del alumno es requerido"/>
+	<mx:StringValidator id="validaPaterno" source="{txtPaterno}" trigger="{cmdGuardar}" 
+		triggerEvent="click" property="text" requiredFieldError="El apellido paterno del alumno es requerido"/>
+	<mx:StringValidator id="validaMaterno" source="{txtMaterno}" trigger="{cmdGuardar}" 
+		triggerEvent="click" property="text" requiredFieldError="El apellido materno del alumno es requerido"/>
+	<mx:StringValidator id="validaMatricula" source="{txtMatricula}" trigger="{cmdGuardar}" 
+		triggerEvent="click" property="text" requiredFieldError="Por favor ingresa la matrícula"/>
+	<mx:StringValidator id="validaCurp" source="{txtCurp}" trigger="{cmdGuardar}" 
+		triggerEvent="click" property="text" requiredFieldError="Esribe el CURP del alumno, es requerido"/>
+	<mx:StringValidator id="validaFechaNac" source="{txtFechaNac}" trigger="{cmdGuardar}" 
+		triggerEvent="click" property="text" requiredFieldError="Selecciona la fecha de nacimiento"/>
+	<mx:StringValidator id="validaResponsable" source="{txtResponsable}" trigger="{cmdGuardar}" 
+		triggerEvent="click" property="text" requiredFieldError="Escribe el nombre del responsable o tutor"/>
+	<mx:StringValidator id="validaDomicilio" source="{txtDomicilio}" trigger="{cmdGuardar}" 
+		triggerEvent="click" property="text" requiredFieldError="Por favor, escribe el domicilio del alumno"/>
+	<mx:StringValidator id="validaCP" source="{txtCP}" trigger="{cmdGuardar}" 
+		triggerEvent="click" property="text" requiredFieldError="Por favor, escribe el código postal"/>
+	<mx:StringValidator id="validaFoto" source="{txtFoto}" trigger="{cmdGuardar}" 
+		triggerEvent="click" property="text" requiredFieldError="Por favor, selecciona la fotografia"/>
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.validators.Validator;
+			import mx.controls.Alert;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.collections.ArrayCollection;
+			[Bindable] private var sexo:ArrayCollection = new ArrayCollection(
+			[{label:"Hombre", data:"H"},{label:"Mujer",data:"M"}]);
+			[Bindable] private var sino:ArrayCollection = new ArrayCollection([
+			{label:"SI"},{label:"NO"}]);
+			public var idUsuarioC:int;
+			[Bindable] public var estadosACC:ArrayCollection;
+			
+			private function cambioDeMunicipio(evento:Event):void{
+				
+				filtroEstado.send({id:evento.target.selectedItem.id_estado});
+			}
+			
+			private function filtroEstadoHandler(evento:ResultEvent):void{
+				var catMunicipios:ArrayCollection = new ArrayCollection();
+				try{
+					catMunicipios = evento.result.municipios.municipio;	
+				}catch(error:Error){
+					
+				}
+				
+				if(catMunicipios.length==0){
+					Alert.show("No hay municipios para este estado","Catálogo vacío");
+					cmbMunicipio.dataProvider="";
+				}else{
+				cmbMunicipio.dataProvider = catMunicipios;
+				} 
+			}
+			
+			private function fallaCompAlumno(evento:FaultEvent):void{
+				Alert.show(evento.fault.faultString,"Error")
+			}
+			//SUBIR ARCHIVO
+			private var miArchivo:FileReference = new FileReference();
+			private function buscarArchivo():void{
+				miArchivo.browse();
+			}
+			private function iniciaEventos():void{
+				miArchivo.addEventListener(Event.SELECT, seleccionarHandler);
+				miArchivo.addEventListener(Event.COMPLETE, completaSubidaHandler);
+			}
+			private function seleccionarHandler(evento:Event):void{
+				Alert.show("Seleccionaste el archivo "+miArchivo.name,"Información de Archivo");
+				txtFoto.text = miArchivo.name;
+			}
+			
+			private function subirArchivoAlServer():void{
+				
+				var peticion:URLRequest = new URLRequest("data/subirFoto.php");
+				peticion.method = URLRequestMethod.POST;
+				var variables:URLVariables = new URLVariables();
+				variables.nameFile = txtCurp.text + ".jpg";
+				peticion.data = variables;
+				var arreglo:Array = Validator.validateAll([
+				validaMatricula,
+				validaCP,
+				validaCurp,
+				validaDomicilio,
+				validaFechaNac,
+				validaFoto,
+				validaMaterno,
+				validaNombre,
+				validaPaterno,
+				validaResponsable
+				]);
+				if (arreglo.length>0){
+					Alert.show("Existen errores en el llenado de los datos","Verifica datos");
+				}else{
+					miArchivo.upload(peticion);	
+				}
+				
+				
+			}
+			private function completaSubidaHandler(evento:Event):void{
+				
+				guardarAlumno.send({
+				matricula:txtMatricula.text,
+				curp:txtCurp.text,
+				nombre:txtNombre.text,
+				paterno:txtPaterno.text,
+				materno:txtMaterno.text,
+				sexo:cmbSexo.selectedItem.data,
+				fechanac:txtFechaNac.text,
+				responsable:txtResponsable.text,
+				telefono:txtTelefono.text,
+				celular:txtCelular.text,
+				email:txtEmail.text,
+				domicilio:txtDomicilio.text,
+				interior:txtInterior.text,
+				exterior:txtExterior.text,
+				cp:txtCP.text,
+				estado:cmbEstado.selectedItem.id_estado,
+				municipio:cmbMunicipio.selectedItem.id_municipio,
+				acta:cmbNacimiento.selectedLabel,
+				comprobante:cmbComprobante.selectedLabel,
+				constancia:cmbConstancia.selectedLabel,
+				foto:txtCurp.text + ".jpg",
+				id_usuario:idUsuarioC			
+				});
+			}
+			private function guardarAlumnoHandler(evento:ResultEvent):void{
+				
+				if (evento.result == "No se guardo"){
+						Alert.show("El alumno NO se guardo en el sistema ","Error");		
+				}else{
+						Alert.show("El alumno se guardo en el sistema ","Felicitaciones");
+						limpiarCajas()
+				}
+			
+				
+			}
+			private function limpiarCajas():void{
+				txtMatricula.text= "";
+				txtCurp.text= "";
+				txtNombre.text= "";
+				txtPaterno.text= "";
+				txtMaterno.text= "";
+				cmbSexo.selectedIndex=0
+				txtFechaNac.text= "";
+				txtResponsable.text= "";
+				txtTelefono.text= "";
+				txtCelular.text= "";
+				txtEmail.text= "";
+				txtDomicilio.text= "";
+				txtInterior.text= "";
+				txtExterior.text= "";
+				txtCP.text= "";
+				cmbEstado.selectedIndex=0
+				cmbMunicipio.dataProvider="";
+				cmbNacimiento.selectedIndex=0;
+				cmbComprobante.selectedIndex=0
+				cmbConstancia.selectedIndex=0
+				txtFoto.text = "";
+				txtMatricula.setFocus();
+			}
+		]]>
+	</mx:Script>	
+	<mx:HTTPService id="filtroEstado" 
+		result="filtroEstadoHandler(event)" 
+		fault="fallaCompAlumno(event)"
+		url="data/muniFiltro.php" method="GET"/>
+		
+	<mx:HTTPService id="guardarAlumno" 
+		result="guardarAlumnoHandler(event)" 
+		fault="fallaCompAlumno(event)"
+		url="data/saveAlumno.php" method="POST">
+		
+	</mx:HTTPService>
+</mx:Canvas>
